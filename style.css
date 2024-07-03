@@ -1,0 +1,70 @@
+body{
+    font-family: system-ui;
+}
+
+.board{
+    width: 700px;
+    height: 700px;
+    padding: 33px;
+    background-color: rgb(100, 10, 10);
+    border: 5px solid rgb(100, 10, 10);
+    /* border-radius: 100px; */
+    margin-left: 66px;
+
+}
+
+.board .card-closed{
+    width: 102px;
+    height: 102px;
+    float: left;
+    border: 1px solid black;
+    background-color: #ff0000;
+    text-align: center;
+    font-size: 40px;
+    color: white;
+    margin: 5px;
+}
+
+.board .card-found{
+    width: 102px;
+    height: 102px;
+    float: left;
+    border: 1px solid black;
+    background-color: #00ff00;
+    text-align: center;
+    font-size: 40px;
+    color: white;
+    margin: 5px;
+}
+
+.board .card-open{
+    width: 102px;
+    height: 102px;
+    float: left;
+    border: 1px solid black;
+    background-color: #0000ff;
+    text-align: center;
+    font-size: 40px;
+    color: white;
+    margin: 5px;
+}
+
+.board p{
+    line-height: 0.6;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.board-information{
+    text-align: center;
+    width: 930px;
+}
+
+.game-information{
+    width: 30%;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
