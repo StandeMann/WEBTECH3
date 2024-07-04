@@ -111,11 +111,11 @@ async function getCard(style){
 
 
 async function createBackboard(){
-    for(let i = 0; i<cards.length;i++){
+    for(let i = 0; i<cards.length;i++){ // Maken van het bord aan de achterkant van het spel.
         nextCard = new CardGenerator(document.getElementsByTagName("img")[i].id,i)
         board.push(nextCard)
     }
-    for(let i = 0; i<board.length;i++){
+    for(let i = 0; i<board.length;i++){ // Toevoegen van listeners aan het bord aan de voorkant van het spel.
         console.log(board[i].getCard_id)
         document.getElementById(board[i].getCard_id).addEventListener('click', clickEvent);
     }
