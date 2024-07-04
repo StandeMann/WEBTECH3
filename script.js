@@ -131,7 +131,7 @@ function clickEvent() {
     changeCard_C();
     changeOpen_C();
     changeFound_C();  
-    finished()
+    finished();
 }
 
 //Functies die kleuren veranderen.
