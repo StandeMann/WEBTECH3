@@ -15,7 +15,7 @@
         <li class="title">
           <h1>Hanzehogeschool Memory</h1>
           <ul>
-            <li id="time_passed">Verlopen tijd: 0s</li>
+            <li>Verlopen tijd: <span id="time_passed"></span>0s</li>
             <li>Gevonden kaartparen: <span id="found_pairs">0</span></li>
             <li>Resterende toontijd: -</li>
           </ul>
@@ -32,9 +32,9 @@
           </ol>
         </li>
 
-        <li class="title">
+        <!-- <li class="title">
           <h1>Gemiddelde Speeltijd: 0s</h1>
-        </li>
+        </li> -->
 
         </ul>
 
@@ -256,13 +256,11 @@
 
       <li>
       <form action="">
-        <button  id="reset" type="reset">Nieuw Spel</button>
+        <button onclick="ResetGame()" id="reset" type="reset">Nieuw Spel</button>
       </form>
         </li>
         </ul>
       </div>
-
-      <img src="" alt="test" id="test">
       <script src="script.js"></script>
   </body>
 </html>

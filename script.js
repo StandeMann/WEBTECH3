@@ -3,6 +3,7 @@ const cards = document.querySelectorAll('.card');
 console.log(cards)
 const board = []
 let cardlist = []
+let time = 0
 
 /**
  * A function to make an new object that stops the frames, so the user can look at the chosen card
@@ -128,6 +129,7 @@ function clickEvent() {
     document.getElementById(this.id).src=cardlist[parseInt(this.id)-1];
     document.getElementById(this.id).className='back-face'
     FlipCard(board[this.id.split('.').reduce((a, b) => parseInt(a)*2 + parseInt(b) - 3)])
+
     num_Found_Pair();
     changeCard_C();
     changeOpen_C();
@@ -166,7 +168,6 @@ async function FlipCard(card){
         CardHolder.setCard_id = card.getCard_id
         CardHolder.setFlipped = card.getFlipped
         CardHolder.setBoard_Place = card.getBoard_Place
-
     }
 
     else if(CardHolder.getFlipped == true){
@@ -207,6 +208,25 @@ async function finished(){
     location.reload()
 }
 
+function ResetGame(){ // Functie om via een knop het spel te resetten.
+    getCard(document.getElementById('cardset').value);
+    createBackboard();
+    document.getElementById('cardset').addEventListener('change', resetBackboard);
+    
+    board.forEach(card =>{
+        card.setFound = false;
+        document.getElementById(card.getCard_id).className='front-face';
+    }
+    )
+
+    shuffle();
+    resetBackboard();
+    num_Found_Pair();
+    changeCard_C();
+    changeOpen_C();
+    changeFound_C(); 
+}
+
 function shuffle() {
     cards.forEach(card => {
       let randomPos = Math.floor(Math.random() * 12);
@@ -241,10 +261,10 @@ function num_Found_Pair() {
     document.getElementById('found_pairs').innerHTML = String(count/2);
 }
 
+
+
 getCard(document.getElementById('cardset').value)
 createBackboard()
 // shuffle()
 document.getElementById('cardset').addEventListener('change', resetBackboard)
 
-// console.log(cardlist)
-console.log(board)
