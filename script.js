@@ -128,6 +128,7 @@ function clickEvent() {
     document.getElementById(this.id).src=cardlist[parseInt(this.id)-1];
     document.getElementById(this.id).className='back-face'
     FlipCard(board[this.id.split('.').reduce((a, b) => parseInt(a)*2 + parseInt(b) - 3)])
+    num_Found_Pair();
     changeCard_C();
     changeOpen_C();
     changeFound_C();  
@@ -227,12 +228,23 @@ function shuffle() {
         document.getElementById(board[i].getCard_id).addEventListener('click', clickEvent);
     }
 
-    shuffle()
+    // shuffle()
+}
+
+function num_Found_Pair() {
+    let count = 0; 
+    for(let i = 0;i < board.length; i++){
+        if(board[i].getFound){
+            count++;
+        }
+    }
+    document.getElementById('found_pairs').innerHTML = String(count/2);
 }
 
 getCard(document.getElementById('cardset').value)
 createBackboard()
-shuffle()
+// shuffle()
 document.getElementById('cardset').addEventListener('change', resetBackboard)
 
-
+// console.log(cardlist)
+console.log(board)
