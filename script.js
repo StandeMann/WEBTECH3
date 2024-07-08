@@ -1,7 +1,7 @@
 const teacherList = ["img/Arnold.jpeg","img/Bart.jpeg", "img/Cata.jpeg", "img/Cobi.jpeg", "img/Erik.jpeg", "img/Ilse.jpeg", "img/Jacob.jpeg", "img/Jolanda.jpeg", "img/Kobus.jpeg", "img/Marjon.jpeg", "img/Mark.jpeg", "img/Misja.jpeg", "img/Oscar.jpeg", "img/Patrick.jpeg", "img/Ralf.jpeg", "img/Renee.jpeg", "img/Silvia.jpeg", "img/Simon.jpeg" ]
 const cards = document.querySelectorAll('.card');
-console.log(cards)
 const board = []
+const playboard =[]
 let cardlist = []
 let time = 0
 
@@ -110,17 +110,65 @@ async function getCard(style){
     return cardlist
 }
 
+async function createBackboard(size){
+    // Alle kaarten verbrengen en resetten om ze later weer te gebruiken
+    playboard.length = 0
+    for(let i = 0; i<36;i++){
+        var id = document.getElementsByTagName("img")[i].id;
+        document.getElementById(id+" h").className = "card"
+        document.getElementById(id).src = "img/Hanze.png"
+        document.getElementById(id).className='front-face'
+    }
 
-async function createBackboard(){
-    for(let i = 0; i<cards.length;i++){ // Maken van het bord aan de achterkant van het spel.
-        nextCard = new CardGenerator(document.getElementsByTagName("img")[i].id,i)
-        board.push(nextCard)
+    if(size == "6x6"){
+        for(let i = 0; i<cards.length;i++){ // Maken van het bord aan de achterkant van het spel.
+            nextCard = new CardGenerator(document.getElementsByTagName("img")[i].id,i);
+            playboard.push(nextCard);
+            document.getElementById(playboard[i].getCard_id).addEventListener('click', clickEvent);
+        }
     }
-    for(let i = 0; i<board.length;i++){ // Toevoegen van listeners aan het bord aan de voorkant van het spel.
-        console.log(board[i].getCard_id)
-        document.getElementById(board[i].getCard_id).addEventListener('click', clickEvent);
+
+    if(size == "4x4"){
+        for(let i = 0; i < 16; i++){ // Maken van het bord aan de achterkant van het spel.
+            nextCard = new CardGenerator(document.getElementsByTagName("img")[i].id,i);
+            document.getElementById(nextCard.getCard_id+" h").className = "card4"
+            playboard.push(nextCard);
+            document.getElementById(playboard[i].getCard_id).addEventListener('click', clickEvent);
+        }
+
+        hide_id = []
+
+        for(let i = 0; i<20;i++){ // Verzamelen van kaarten waarmee niet gespeeld wordt.
+            var id = document.getElementsByClassName("card")[i].id
+            hide_id.push(id)
+        }
+
+        for(let i = 0; i<hide_id.length;i++){
+            document.getElementById(hide_id[i]).className = "hides"
+        }
     }
-};
+        
+    if(size == "2x2"){
+        document.getElementsByClassName("card").className = "card4"
+        for(let i = 0; i < 4; i++){ // Maken van het bord aan de achterkant van het spel.
+            nextCard = new CardGenerator(document.getElementsByTagName("img")[i].id,i);
+            document.getElementById(nextCard.getCard_id+" h").className = "card2"
+            playboard.push(nextCard);
+            document.getElementById(playboard[i].getCard_id).addEventListener('click', clickEvent);
+        }
+
+        hide_id = []
+
+        for(let i = 0; i<32;i++){ // Verzamelen van kaarten waarmee niet gespeeld wordt.
+            var id = document.getElementsByClassName("card")[i].id
+            hide_id.push(id)
+        }
+
+        for(let i = 0; i<hide_id.length;i++){
+            document.getElementById(hide_id[i]).className = "hides"
+        }
+    }
+    };
 
 function clickEvent() {
     // #starttimer
@@ -128,7 +176,7 @@ function clickEvent() {
     
     document.getElementById(this.id).src=cardlist[parseInt(this.id)-1];
     document.getElementById(this.id).className='back-face'
-    FlipCard(board[this.id.split('.').reduce((a, b) => parseInt(a)*2 + parseInt(b) - 3)])
+    FlipCard(playboard[this.id.split('.').reduce((a, b) => parseInt(a)*2 + parseInt(b) - 3)])
 
     num_Found_Pair();
     changeCard_C();
@@ -176,10 +224,10 @@ async function FlipCard(card){
         if (parseInt(CardHolder.getCard_id) == parseInt(card.getCard_id)){ // Kaarten zijn gelijk
             console.log("Gelijk")
             card.setFound = true
-            board[CardHolder.getBoard_Place].setFound = true
+            playboard[CardHolder.getBoard_Place].setFound = true
             CardHolder.setFlipped = false
             document.getElementById(card.getCard_id).className='found-face'
-            document.getElementById(board[CardHolder.getBoard_Place].getCard_id).className='found-face'
+            document.getElementById(playboard[CardHolder.getBoard_Place].getCard_id).className='found-face'
         }
 
         else if(parseInt(CardHolder.getCard_id) != parseInt(card.getCard_id)){ // Kaarten zijn niet gelijk
@@ -189,7 +237,7 @@ async function FlipCard(card){
             document.getElementById(card.getCard_id).src = "img/Hanze.png"
             document.getElementById(CardHolder.getCard_id).src = "img/Hanze.png"
             card.setFlipped = false
-            board[CardHolder.getBoard_Place].setFlipped = false
+            playboard[CardHolder.getBoard_Place].setFlipped = false
             document.getElementById(card.getCard_id).className='front-face'
             document.getElementById(CardHolder.getCard_id).className='front-face'
             changeCard_C();
@@ -199,7 +247,7 @@ async function FlipCard(card){
 
 async function finished(){
     for(let i = 0; cards.length>i;i++){
-        if(board[i].getFound == false){
+        if(playboard[i].getFound == false){
             return
         }
     }
@@ -213,12 +261,11 @@ function ResetGame(){ // Functie om via een knop het spel te resetten.
     createBackboard();
     document.getElementById('cardset').addEventListener('change', resetBackboard);
     
-    board.forEach(card =>{
+    playboard.forEach(card =>{
         card.setFound = false;
         document.getElementById(card.getCard_id).className='front-face';
     }
     )
-
     shuffle();
     resetBackboard();
     num_Found_Pair();
@@ -235,7 +282,7 @@ function shuffle() {
   }
 
   async function resetBackboard(){
-    board.forEach(card => {
+    playboard.forEach(card => {
         card.setFlipped = false
         document.getElementById(card.getCard_id).removeEventListener('click', clickEvent)
         document.getElementById(card.getCard_id).src = "img/Hanze.png"
@@ -244,8 +291,8 @@ function shuffle() {
 
     cardlist = await getCard(document.getElementById('cardset').value)
 
-    for(let i = 0; i<board.length;i++){
-        document.getElementById(board[i].getCard_id).addEventListener('click', clickEvent);
+    for(let i = 0; i<playboard.length;i++){
+        document.getElementById(playboard[i].getCard_id).addEventListener('click', clickEvent);
     }
 
     // shuffle()
@@ -253,18 +300,15 @@ function shuffle() {
 
 function num_Found_Pair() {
     let count = 0; 
-    for(let i = 0;i < board.length; i++){
-        if(board[i].getFound){
+    for(let i = 0;i < playboard.length; i++){
+        if(playboard[i].getFound){
             count++;
         }
     }
     document.getElementById('found_pairs').innerHTML = String(count/2);
 }
 
-
-
 getCard(document.getElementById('cardset').value)
-createBackboard()
+createBackboard("2x2")
 // shuffle()
 document.getElementById('cardset').addEventListener('change', resetBackboard)
-

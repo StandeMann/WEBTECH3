@@ -44,6 +44,24 @@
     position: relative;
     box-shadow: 1px 1px 1px rgba(0,0,0,.3);
   }
+
+  .card4 {
+    border-radius: 10px;
+    width: calc(25% - 10px);
+    height: calc(25% - 10px);
+    margin: 5px;
+    position: relative;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+  }
+
+  .card2 {
+    border-radius: 10px;
+    width: calc(50% - 10px);
+    height: calc(50% - 10px);
+    margin: 5px;
+    position: relative;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+  }
   
   .front-face,.back-face, .found-face{
     width: 100%;
@@ -55,10 +73,12 @@
     backface-visibility: hidden;
   }
 
-  /* .front-face {
-    transform: rotateY(180deg);
+  .hides{
+    display: none;
+    visibility: hidden
   }
-   */
+
+
   .bottom{
     background-color: orange;
     margin-top: 20px;
@@ -88,3 +108,4 @@
     font-size: larger;
     border-radius: 10px;
   }
+
